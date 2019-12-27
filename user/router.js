@@ -15,7 +15,7 @@ router.post("/login", (req, res, next) => {
     .catch(error => next(error));
 });
 
-// router.post("/user", async (request, response, next) => {
+// router.post("/login", async (request, response, next) => {
 //   try {
 //     const found = await User.findOne({
 //       where: { email: request.body.email }

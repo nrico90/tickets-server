@@ -3,7 +3,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./db");
 
+const User = require("./user/model");
 const userRouter = require("./user/router");
+
+const Event = require("./event/model");
+const eventRouter = require("./event/router");
 
 const app = express();
 
@@ -20,5 +24,6 @@ const jsonParser = bodyParser.json();
 app.use(jsonParser);
 
 app.use(userRouter);
+app.use(eventRouter);
 
 app.listen(port, () => console.log(`Listening on ${port}`));
