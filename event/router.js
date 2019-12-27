@@ -3,7 +3,7 @@ const Event = require("./model");
 
 const router = new Router();
 
-router.get("/event", (request, response, next) => {
+router.get("/events", (request, response, next) => {
   const limit = request.query.limit || 9;
   const offset = request.query.offset || 0;
 
@@ -15,21 +15,17 @@ router.get("/event", (request, response, next) => {
       })
       .catch(next)
   );
-  //   Event.findAndCountAll({ limit, offset })
-  //     .then(result => response.send({ events: result.rows, total: result.count }))
-  //     .catch(error => next(error));
 });
 
-router.post("/event", (request, response, next) => {
+router.post("/events", (request, response, next) => {
   Event.create(request.body)
-    .then(event => response.send(event))
+    .then(event => response.json(event))
     .catch(next);
 });
 
-router.get("/events/:id", (req, res) => {
-  const id = req.params.id;
-  Event.findByPk(id)
-    .then(async event => {
+router.get("/events/eventId", (req, res, next) => {
+  Event.findByPk(req.params.eventId)
+    .then(event => {
       if (!event) {
         res.status(404).json({
           message: "This event does not exist"
@@ -38,7 +34,7 @@ router.get("/events/:id", (req, res) => {
         res.json({ event });
       }
     })
-    .catch(console.error());
+    .catch(next);
 });
 
 module.exports = router;

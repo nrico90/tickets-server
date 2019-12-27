@@ -1,17 +1,15 @@
 const express = require("express");
+
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const db = require("./db");
 
-const User = require("./user/model");
 const userRouter = require("./user/router");
-
-const Event = require("./event/model");
 const eventRouter = require("./event/router");
+const ticketRouter = require("./ticket/router");
 
 const app = express();
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 app.get("/", (request, response) => {
   response.send("hello world");
@@ -25,5 +23,6 @@ app.use(jsonParser);
 
 app.use(userRouter);
 app.use(eventRouter);
+app.use(ticketRouter);
 
 app.listen(port, () => console.log(`Listening on ${port}`));
