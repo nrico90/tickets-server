@@ -27,7 +27,7 @@ const Event = db.define(
   },
   {
     timestamps: false,
-    tableName: "event"
+    tableName: "events"
   }
 );
 

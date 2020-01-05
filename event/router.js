@@ -3,27 +3,33 @@ const Event = require("./model");
 
 const router = new Router();
 
-router.get("/events", (request, response, next) => {
-  const limit = request.query.limit || 9;
-  const offset = request.query.offset || 0;
+router.get("/events", (req, res, next) => {
+  const limit = req.query.limit || 9;
+  const offset = req.query.offset || 0;
 
-  Event.count().then(total =>
-    Event.findAll({ limit, offset })
-      .then(events => {
-        let page = Math.ceil(total / limit);
-        response.json({ events, total, page });
-      })
-      .catch(next)
-  );
+  Event.findAll()
+    .then(events => {
+      res.send(events);
+    })
+    .catch(next);
+
+  // Event.count().then(total =>
+  //   Event.findAll({ limit, offset })
+  //     .then(events => {
+  //       let page = Math.ceil(total / limit);
+  //       response.json({ events, total, page });
+  //     })
+  //     .catch(next)
+  // );
 });
 
-router.post("/events", (request, response, next) => {
-  Event.create(request.body)
-    .then(event => response.json(event))
+router.post("/events", (req, res, next) => {
+  Event.create(req.body)
+    .then(event => res.send(event))
     .catch(next);
 });
 
-router.get("/events/eventId", (req, res, next) => {
+router.get("/events/:id", (req, res, next) => {
   Event.findByPk(req.params.eventId)
     .then(event => {
       if (!event) {
@@ -36,5 +42,11 @@ router.get("/events/eventId", (req, res, next) => {
     })
     .catch(next);
 });
+
+router.delete("/event/:id", (req, res, next) =>
+  Event.destroy({ where: { id: req.params.id } })
+    .then(number => res.send({ number }))
+    .catch(next)
+);
 
 module.exports = router;
