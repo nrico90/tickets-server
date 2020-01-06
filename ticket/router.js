@@ -4,19 +4,26 @@ const authw = require("../auth/middleware");
 
 const router = new Router();
 
-router.get("/ticket", (req, res, next) => {
+router.get("/tickets", (req, res, next) => {
   Ticket.findAll()
-    .then(result => response.send(result))
+    .then(result => res.send(result))
     .catch(errors => next(errors));
 });
 
-router.post("/ticket", (req, res, next) => {
-  Ticket.create(req.body)
+router.post("/events/:id", (req, res, next) => {
+  const ticket = {
+    price: req.body.price,
+    description: req.body.description,
+    picture: req.body.picture,
+    author: req.body.author,
+    eventId: req.params.id
+  };
+  Ticket.create(ticket)
     .then(ticket => res.send(ticket))
     .catch(next);
 });
 
-router.get("/event/:id/ticket/", (req, res, next) => {
+router.get("/events/:id/ticket/", (req, res, next) => {
   Ticket.findAll({
     where: { eventId: req.params.id }
   })
@@ -33,12 +40,12 @@ router.put("/ticket/:id", async (req, res, next) => {
   res.send(ticket);
 });
 
-router.get("/event/ticket/:ticketId", (req, res, next) => {
-  Ticket.findByPk(req.params.ticketId)
-    .then(ticket => {
-      return res.send(ticket);
-    })
-    .catch(next);
-});
+// router.get("/event/ticket/:ticketId", (req, res, next) => {
+//   Ticket.findByPk(req.params.ticketId)
+//     .then(ticket => {
+//       return res.send(ticket);
+//     })
+//     .catch(next);
+// });
 
 module.exports = router;

@@ -5,24 +5,19 @@ const Event = db.define(
   "event",
   {
     name: {
-      type: Sequelize.STRING,
-      allowNull: false
+      type: Sequelize.STRING
     },
     description: {
-      type: Sequelize.STRING,
-      allowNull: false
+      type: Sequelize.STRING
     },
     picture: {
-      type: Sequelize.STRING,
-      allowNull: true
+      type: Sequelize.STRING
     },
     start: {
-      type: Sequelize.DATE,
-      allowNull: false
+      type: Sequelize.DATE
     },
     end: {
-      type: Sequelize.DATE,
-      allowNull: false
+      type: Sequelize.DATE
     }
   },
   {

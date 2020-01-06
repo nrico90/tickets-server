@@ -4,10 +4,10 @@ const Event = require("./model");
 const router = new Router();
 
 router.get("/events", (req, res, next) => {
-  const limit = req.query.limit || 9;
+  const limit = req.query.limit || 100;
   const offset = req.query.offset || 0;
 
-  Event.findAll()
+  Event.findAll({ limit, offset })
     .then(events => {
       res.send(events);
     })
@@ -30,7 +30,7 @@ router.post("/events", (req, res, next) => {
 });
 
 router.get("/events/:id", (req, res, next) => {
-  Event.findByPk(req.params.eventId)
+  Event.findByPk(req.params.id)
     .then(event => {
       if (!event) {
         res.status(404).json({
