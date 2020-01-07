@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const Event = require("./model");
+const authMiddleWare = require("../auth/middleware");
 
 const router = new Router();
 
@@ -12,20 +13,19 @@ router.get("/events", (req, res, next) => {
       res.send(events);
     })
     .catch(next);
-
-  // Event.count().then(total =>
-  //   Event.findAll({ limit, offset })
-  //     .then(events => {
-  //       let page = Math.ceil(total / limit);
-  //       response.json({ events, total, page });
-  //     })
-  //     .catch(next)
-  // );
 });
 
-router.post("/events", (req, res, next) => {
+router.post("/events", authMiddleWare, (req, res, next) => {
+  console.log("Do we have the user?", req.user);
+  // const event = {
+  //   name: req.body.name,
+  //   description: req.body.description,
+  //   picture: req.body.picture,
+  //   start: req.body.start,
+  //   end: req.body.end
+  // };
   Event.create(req.body)
-    .then(event => res.send(event))
+    .then(event => res.json(event))
     .catch(next);
 });
 

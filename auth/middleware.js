@@ -1,10 +1,10 @@
 const User = require("../user/model");
 const { toData } = require("./jwt");
 
-function authw(req, res, next) {
+function authMiddleWare(req, res, next) {
   const auth =
     req.headers.authorization && req.headers.authorization.split(" ");
-  console.log("auth test:", auth);
+  console.log("auth test, why:", auth);
   if (auth && auth[0] === "Bearer" && auth[1]) {
     try {
       const data = toData(auth[1]);
@@ -28,4 +28,4 @@ function authw(req, res, next) {
   }
 }
 
-module.exports = authw;
+module.exports = authMiddleWare;
