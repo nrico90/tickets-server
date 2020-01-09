@@ -15,6 +15,17 @@ router.get("/events", (req, res, next) => {
     .catch(next);
 });
 
+// router.get("/events", (req, res, next) => {
+//   const limit = req.query.limit || 2;
+//   const offset = req.query.offset || 0;
+
+//   Event.findAndCountAll({ limit, offset })
+//     .then(events => {
+//       res.send(events);
+//     })
+//     .catch(next);
+// });
+
 router.post("/events", authMiddleWare, (req, res, next) => {
   console.log("Do we have the user?", req.user);
   // const event = {

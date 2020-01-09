@@ -11,6 +11,9 @@ const Comment = sequelize.define(
     },
     author: {
       type: Sequelize.STRING
+    },
+    ticketId: {
+      type: Sequelize.INTEGER
     }
   },
   {

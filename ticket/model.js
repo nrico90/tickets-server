@@ -8,8 +8,11 @@ const Ticket = db.define(
   {
     author: { type: Sequelize.STRING },
     picture: { type: Sequelize.STRING },
-    price: { type: Sequelize.FLOAT },
-    description: { type: Sequelize.STRING }
+    price: { type: Sequelize.INTEGER },
+    description: { type: Sequelize.STRING },
+    ticketId: { type: Sequelize.INTEGER },
+    eventId: { type: Sequelize.INTEGER },
+    risk: { type: Sequelize.INTEGER }
   },
   {
     timestamps: false,
@@ -17,8 +20,7 @@ const Ticket = db.define(
   }
 );
 
-Ticket.belongsTo(Event); //GET the event for this ticket
-Event.hasMany(Ticket); // get me the tickets of this event
+//Ticket.belongsTo(Event, { onDelete: "CASCADE" }); //GET the event for this ticket
 Ticket.belongsTo(User);
 
 module.exports = Ticket;

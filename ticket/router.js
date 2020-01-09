@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Ticket = require("./model");
-const authw = require("../auth/middleware");
+const authMiddleWare = require("../auth/middleware");
+const Event = require("../event/model");
 
 const router = new Router();
 
@@ -10,21 +11,44 @@ router.get("/tickets", (req, res, next) => {
     .catch(errors => next(errors));
 });
 
-router.post("/events/:id", (req, res, next) => {
+// router.get("/ticket/:id", (req, res, next) => {
+//   console.log("testing", req.params.id);
+
+//   Ticket.findByPk(req.params.id)
+//     .then(ticket => {
+//       res.status(200).send(ticket);
+//     })
+//     .catch(next);
+// });
+
+router.get("/ticket/:id", (req, res, next) => {
+  console.log("CHECK HERE", req.params.id);
+  Ticket.findByPk(req.params.id)
+    .then(ticket => {
+      res.status(200).send(ticket);
+    })
+    .catch(next);
+  // Ticket.findAll({ where: { id: req.params.id } })
+  //   .then(ticket => {
+  //     res.status(200).send(ticket);
+  //   })
+  //   .catch(next);
+});
+
+router.post("/events/:id", authMiddleWare, (req, res, next) => {
   const ticket = {
     price: req.body.price,
     description: req.body.description,
     picture: req.body.picture,
-    author: req.body.author,
-    eventId: req.params.id,
-    userId: req.params.id
+    author: req.body.author
+    // eventId: req.params.id
   };
   Ticket.create(ticket)
     .then(ticket => res.send(ticket))
     .catch(next);
 });
 
-router.get("/events/:id/ticket/", (req, res, next) => {
+router.get("/tickets/:id/", (req, res, next) => {
   Ticket.findAll({
     where: { eventId: req.params.id }
   })
@@ -53,8 +77,8 @@ router.put("/ticket/:id", async (req, res, next) => {
   res.send(ticket);
 });
 
-// router.get("/event/ticket/:ticketId", (req, res, next) => {
-//   Ticket.findByPk(req.params.ticketId)
+// router.get("/ticket/:id", (req, res, next) => {
+//   Ticket.findByPk(req.params.id)
 //     .then(ticket => {
 //       return res.send(ticket);
 //     })
